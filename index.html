@@ -150,96 +150,180 @@
 
     <!-- Main Content Canvas -->
     <main class="flex-grow w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-xl">
-        <!-- Hero Section -->
-        <section class="flex flex-col items-center justify-center text-center mb-xl">
-            <!-- Novo Mascote SVG Interativo (Doca) -->
-            <!-- Novo Mascote SVG Interativo (Doca - Fiel às Imagens de Referência) -->
-            <!-- Novo Mascote SVG (Doca Acordado e Estático) -->
-            <div class="mascote-container mx-auto mb-md" id="mascote">
-              <img src="img/doca.png" alt="Mascote Doca" class="w-full h-full object-contain" />
+        <!-- Dashboard (Home) View -->
+        <section id="dashboard" class="view flex flex-col">
+            <!-- Hero Section -->
+            <div class="flex flex-col items-center justify-center text-center mb-xl">
+                <!-- Novo Mascote SVG Interativo (Doca) -->
+                <!-- Novo Mascote SVG Interativo (Doca - Fiel às Imagens de Referência) -->
+                <!-- Novo Mascote SVG (Doca Acordado e Estático) -->
+                <div class="mascote-container mx-auto mb-md" id="mascote">
+                  <img src="img/doca.png" alt="Mascote Doca" class="w-full h-full object-contain" />
+                </div>
+                <h1 class="font-display-lg text-display-lg text-primary dark:text-zinc-100 max-w-2xl transition-colors">Olá! O que vamos fazer hoje?</h1>
             </div>
-            <h1 class="font-display-lg text-display-lg text-primary dark:text-zinc-100 max-w-2xl transition-colors">Olá! O que vamos fazer hoje?</h1>
+
+            <!-- Tools Bento Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+                <!-- Tool 1: Juntar PDFs -->
+                <a class="group block bg-surface-container-lowest dark:bg-zinc-900/60 rounded-3xl p-md border border-surface-variant dark:border-zinc-800 soft-glow hover-lift" href="javascript:void(0)" onclick="switchView('merge')">
+                    <div class="flex items-start gap-md">
+                        <div class="w-16 h-16 rounded-2xl bg-pastel-orange dark:bg-amber-950/40 text-on-surface dark:text-amber-300 flex items-center justify-center flex-shrink-0 transition-colors">
+                            <span class="material-symbols-outlined text-[32px]" data-icon="merge_type">merge_type</span>
+                        </div>
+                        <div>
+                            <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs group-hover:text-primary dark:group-hover:text-amber-300 transition-colors">Juntar PDFs</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Combine vários arquivos PDF em um único documento de forma rápida.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Tool 2: Dividir PDF -->
+                <a class="group block bg-surface-container-lowest dark:bg-zinc-900/60 rounded-3xl p-md border border-surface-variant dark:border-zinc-800 soft-glow hover-lift" href="javascript:void(0)" onclick="switchView('split')">
+                    <div class="flex items-start gap-md">
+                        <div class="w-16 h-16 rounded-2xl bg-pastel-blue dark:bg-blue-950/40 text-on-surface dark:text-blue-300 flex items-center justify-center flex-shrink-0 transition-colors">
+                            <span class="material-symbols-outlined text-[32px]" data-icon="content_cut">content_cut</span>
+                        </div>
+                        <div>
+                            <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs group-hover:text-primary dark:group-hover:text-blue-300 transition-colors">Dividir PDF</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Separe páginas específicas ou extraia partes do seu PDF facilmente.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Tool 3: Imagem para PDF -->
+                <a class="group block bg-surface-container-lowest dark:bg-zinc-900/60 rounded-3xl p-md border border-surface-variant dark:border-zinc-800 soft-glow hover-lift" href="javascript:void(0)" onclick="switchView('img-to-pdf')">
+                    <div class="flex items-start gap-md">
+                        <div class="w-16 h-16 rounded-2xl bg-pastel-navy dark:bg-indigo-950/40 text-on-surface dark:text-indigo-300 flex items-center justify-center flex-shrink-0 transition-colors">
+                            <span class="material-symbols-outlined text-[32px]" data-icon="image">image</span>
+                        </div>
+                        <div>
+                            <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs group-hover:text-primary dark:group-hover:text-indigo-300 transition-colors">Imagem para PDF</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Converta imagens PNG, JPG ou JPEG em um documento PDF unificado.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Tool 4: Rotacionar PDF -->
+                <a class="group block bg-surface-container-lowest dark:bg-zinc-900/60 rounded-3xl p-md border border-surface-variant dark:border-zinc-800 soft-glow hover-lift" href="javascript:void(0)" onclick="switchView('rotate')">
+                    <div class="flex items-start gap-md">
+                        <div class="w-16 h-16 rounded-2xl bg-pastel-lightblue dark:bg-sky-950/40 text-on-surface dark:text-sky-300 flex items-center justify-center flex-shrink-0 transition-colors">
+                            <span class="material-symbols-outlined text-[32px]" data-icon="rotate_right">rotate_right</span>
+                        </div>
+                        <div>
+                            <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs group-hover:text-primary dark:group-hover:text-sky-300 transition-colors">Rotacionar PDF</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Rotacione as páginas do seu documento PDF em 90°, 180° ou 270°.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Tool 5: Desbloquear PDF -->
+                <a class="group block bg-surface-container-lowest dark:bg-zinc-900/60 rounded-3xl p-md border border-surface-variant dark:border-zinc-800 soft-glow hover-lift" href="javascript:void(0)" onclick="switchView('unlock')">
+                    <div class="flex items-start gap-md">
+                        <div class="w-16 h-16 rounded-2xl bg-pastel-green dark:bg-emerald-950/40 text-on-surface dark:text-emerald-300 flex items-center justify-center flex-shrink-0 transition-colors">
+                            <span class="material-symbols-outlined text-[32px]" data-icon="lock_open">lock_open</span>
+                        </div>
+                        <div>
+                            <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs group-hover:text-primary dark:group-hover:text-emerald-350 transition-colors">Desbloquear PDF</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Remova a proteção por senha de arquivos PDF criptografados.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Tool 6: Compactar PDF (Em breve) -->
+                <div class="group block bg-surface-container-lowest dark:bg-zinc-900/40 rounded-3xl p-md border border-surface-variant dark:border-zinc-800/50 opacity-60 cursor-not-allowed">
+                    <div class="flex items-start gap-md">
+                        <div class="w-16 h-16 rounded-2xl bg-pastel-purple dark:bg-purple-950/40 text-on-surface dark:text-purple-300 flex items-center justify-center flex-shrink-0 transition-colors">
+                            <span class="material-symbols-outlined text-[32px]" data-icon="compress">compress</span>
+                        </div>
+                        <div>
+                            <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs transition-colors flex items-center gap-xs">
+                                Compactar PDF
+                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-surface-container dark:bg-zinc-800 text-on-surface-variant dark:text-zinc-400">Em breve</span>
+                            </h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Reduza o tamanho do arquivo PDF mantendo a qualidade ideal.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- Tools Bento Grid -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
-            <!-- Tool 1: Juntar PDFs -->
-            <a class="group block bg-surface-container-lowest dark:bg-zinc-900/60 rounded-3xl p-md border border-surface-variant dark:border-zinc-800 soft-glow hover-lift" href="#">
-                <div class="flex items-start gap-md">
-                    <div class="w-16 h-16 rounded-2xl bg-pastel-orange dark:bg-amber-950/40 text-on-surface dark:text-amber-300 flex items-center justify-center flex-shrink-0 transition-colors">
-                        <span class="material-symbols-outlined text-[32px]" data-icon="merge_type">merge_type</span>
-                    </div>
-                    <div>
-                        <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs group-hover:text-primary dark:group-hover:text-amber-300 transition-colors">Juntar PDFs</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Combine vários arquivos PDF em um único documento de forma rápida.</p>
-                    </div>
-                </div>
-            </a>
+        <!-- Workspace View (Active Tool) -->
+        <section id="workspace" class="view hidden flex flex-col gap-md">
+            <!-- Header -->
+            <div class="flex items-center gap-md mb-md border-b border-surface-variant dark:border-zinc-800 pb-sm">
+                <button onclick="goHome()" class="flex items-center justify-center font-label-sm text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white transition-colors cursor-pointer bg-surface-container-low dark:bg-zinc-800/80 p-2 rounded-full border border-surface-variant dark:border-zinc-800">
+                    <span class="material-symbols-outlined text-md">arrow_back</span>
+                </button>
+                <h2 id="tool-title" class="font-headline-lg text-headline-lg text-primary dark:text-zinc-100">Título da Ferramenta</h2>
+            </div>
 
-            <!-- Tool 2: Dividir PDF -->
-            <a class="group block bg-surface-container-lowest dark:bg-zinc-900/60 rounded-3xl p-md border border-surface-variant dark:border-zinc-800 soft-glow hover-lift" href="#">
-                <div class="flex items-start gap-md">
-                    <div class="w-16 h-16 rounded-2xl bg-pastel-blue dark:bg-blue-950/40 text-on-surface dark:text-blue-300 flex items-center justify-center flex-shrink-0 transition-colors">
-                        <span class="material-symbols-outlined text-[32px]" data-icon="content_cut">content_cut</span>
+            <!-- Workspace Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+                <!-- Drop Zone / Upload Area -->
+                <div class="lg:col-span-2 flex flex-col gap-md">
+                    <div id="drop-zone" onclick="document.getElementById('file-input').click()" class="border-2 border-dashed border-primary/30 dark:border-zinc-700/60 hover:border-primary dark:hover:border-zinc-500 rounded-3xl p-lg flex flex-col items-center justify-center text-center cursor-pointer transition-colors min-h-[300px] bg-surface-container-lowest/50 dark:bg-zinc-900/20 backdrop-blur-sm">
+                        <input type="file" id="file-input" class="hidden" />
+                        <div class="flex flex-col items-center gap-sm">
+                            <div class="w-16 h-16 rounded-full bg-primary/10 dark:bg-zinc-800 text-primary dark:text-zinc-300 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-[32px]">upload_file</span>
+                            </div>
+                            <p class="font-title-md text-on-surface dark:text-zinc-100">Arraste e solte seus arquivos aqui ou <span class="text-primary dark:text-zinc-300 underline font-semibold">procure no computador</span></p>
+                            <p id="file-format-prompt" class="font-body-md text-on-surface-variant dark:text-zinc-400">Suporta arquivos PDF de até 50MB</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs group-hover:text-primary dark:group-hover:text-blue-300 transition-colors">Dividir PDF</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Separe páginas específicas ou extraia partes do seu PDF facilmente.</p>
-                    </div>
-                </div>
-            </a>
 
-            <!-- Tool 3: PDF para Word -->
-            <a class="group block bg-surface-container-lowest dark:bg-zinc-900/60 rounded-3xl p-md border border-surface-variant dark:border-zinc-800 soft-glow hover-lift" href="#">
-                <div class="flex items-start gap-md">
-                    <div class="w-16 h-16 rounded-2xl bg-pastel-navy dark:bg-indigo-950/40 text-on-surface dark:text-indigo-300 flex items-center justify-center flex-shrink-0 transition-colors">
-                        <span class="material-symbols-outlined text-[32px]" data-icon="description">description</span>
-                    </div>
-                    <div>
-                        <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs group-hover:text-primary dark:group-hover:text-indigo-300 transition-colors">PDF para Word</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Converta seus PDFs para documentos do Word editáveis mantendo a formatação.</p>
+                    <!-- File List Section (rendered dynamically) -->
+                    <div id="file-list-section" class="hidden flex flex-col gap-sm bg-surface-container-lowest dark:bg-zinc-900/40 rounded-3xl p-md border border-surface-variant dark:border-zinc-800">
+                        <div class="flex justify-between items-center border-b border-surface-variant dark:border-zinc-800 pb-xs mb-xs">
+                            <h3 class="font-title-md text-primary dark:text-zinc-200">Arquivos Selecionados (<span id="file-count">0</span>)</h3>
+                            <button onclick="clearFiles()" class="text-xs font-semibold text-error hover:underline">Limpar Todos</button>
+                        </div>
+                        <div id="file-list" class="flex flex-col gap-xs max-h-[300px] overflow-y-auto pr-xs">
+                            <!-- File cards are populated here -->
+                        </div>
                     </div>
                 </div>
-            </a>
 
-            <!-- Tool 4: Word para PDF -->
-            <a class="group block bg-surface-container-lowest dark:bg-zinc-900/60 rounded-3xl p-md border border-surface-variant dark:border-zinc-800 soft-glow hover-lift" href="#">
-                <div class="flex items-start gap-md">
-                    <div class="w-16 h-16 rounded-2xl bg-pastel-lightblue dark:bg-sky-950/40 text-on-surface dark:text-sky-300 flex items-center justify-center flex-shrink-0 transition-colors">
-                        <span class="material-symbols-outlined text-[32px]" data-icon="article">article</span>
-                    </div>
-                    <div>
-                        <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs group-hover:text-primary dark:group-hover:text-sky-300 transition-colors">Word para PDF</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Transforme documentos do Word em arquivos PDF seguros e prontos para envio.</p>
-                    </div>
-                </div>
-            </a>
+                <!-- Settings / Configuration Area -->
+                <div class="flex flex-col gap-md bg-surface-container-lowest dark:bg-zinc-900/40 border border-surface-variant dark:border-zinc-800 rounded-3xl p-md h-fit">
+                    <h3 class="font-title-md text-primary dark:text-zinc-200 border-b border-surface-variant dark:border-zinc-800 pb-xs">Configuração</h3>
+                    
+                    <!-- Dynamic settings based on tool -->
+                    <div id="tool-settings" class="flex flex-col gap-md py-sm">
+                        <!-- Split Settings -->
+                        <div class="flex flex-col gap-xs" id="settings-split" style="display: none;">
+                            <label for="split-ranges" class="font-label-sm text-on-surface-variant dark:text-zinc-400">Intervalos de Página</label>
+                            <input type="text" id="split-ranges" placeholder="Ex: 1-3, 5, 7-10" class="w-full px-sm py-2 rounded-xl bg-surface-container-lowest dark:bg-zinc-900 border border-surface-variant dark:border-zinc-800 text-on-surface dark:text-zinc-200 outline-none focus:border-primary transition-colors" />
+                            <p class="text-xs text-on-surface-variant dark:text-zinc-500">Deixe em branco para extrair todas as páginas individualmente.</p>
+                        </div>
 
-            <!-- Tool 5: Compactar PDF -->
-            <a class="group block bg-surface-container-lowest dark:bg-zinc-900/60 rounded-3xl p-md border border-surface-variant dark:border-zinc-800 soft-glow hover-lift" href="#">
-                <div class="flex items-start gap-md">
-                    <div class="w-16 h-16 rounded-2xl bg-pastel-green dark:bg-emerald-950/40 text-on-surface dark:text-emerald-300 flex items-center justify-center flex-shrink-0 transition-colors">
-                        <span class="material-symbols-outlined text-[32px]" data-icon="compress">compress</span>
-                    </div>
-                    <div>
-                        <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs group-hover:text-primary dark:group-hover:text-emerald-350 transition-colors">Compactar PDF</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Reduza o tamanho do arquivo PDF mantendo a qualidade ideal para compartilhamento.</p>
-                    </div>
-                </div>
-            </a>
+                        <!-- Rotate Settings -->
+                        <div class="flex flex-col gap-xs" id="settings-rotate" style="display: none;">
+                            <label for="rotate-angle" class="font-label-sm text-on-surface-variant dark:text-zinc-400">Ângulo de Rotação</label>
+                            <select id="rotate-angle" class="w-full px-sm py-2 rounded-xl bg-surface-container-lowest dark:bg-zinc-900 border border-surface-variant dark:border-zinc-800 text-on-surface dark:text-zinc-200 outline-none focus:border-primary transition-colors">
+                                <option value="90">90° no sentido horário</option>
+                                <option value="180">180° (meia volta)</option>
+                                <option value="270">270° no sentido anti-horário</option>
+                            </select>
+                        </div>
 
-            <!-- Tool 6: Organizar Páginas -->
-            <a class="group block bg-surface-container-lowest dark:bg-zinc-900/60 rounded-3xl p-md border border-surface-variant dark:border-zinc-800 soft-glow hover-lift" href="#">
-                <div class="flex items-start gap-md">
-                    <div class="w-16 h-16 rounded-2xl bg-pastel-purple dark:bg-purple-950/40 text-on-surface dark:text-purple-300 flex items-center justify-center flex-shrink-0 transition-colors">
-                        <span class="material-symbols-outlined text-[32px]" data-icon="auto_stories">auto_stories</span>
+                        <!-- Unlock Settings -->
+                        <div class="flex flex-col gap-xs" id="settings-unlock" style="display: none;">
+                            <label for="unlock-password" class="font-label-sm text-on-surface-variant dark:text-zinc-400">Senha do Documento</label>
+                            <div class="relative flex items-center">
+                                <input type="password" id="unlock-password" placeholder="Digite a senha do PDF" class="w-full px-sm py-2 pr-10 rounded-xl bg-surface-container-lowest dark:bg-zinc-900 border border-surface-variant dark:border-zinc-800 text-on-surface dark:text-zinc-200 outline-none focus:border-primary transition-colors" />
+                                <button type="button" onclick="togglePasswordVisibility('unlock-password')" class="absolute right-2 text-xs font-semibold text-primary dark:text-zinc-400 hover:text-on-surface">Mostrar</button>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <h3 class="font-title-md text-title-md text-primary dark:text-zinc-100 mb-xs group-hover:text-primary dark:group-hover:text-purple-300 transition-colors">Organizar Páginas</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant dark:text-zinc-400">Reordene, exclua ou adicione novas páginas ao seu documento PDF.</p>
-                    </div>
+
+                    <!-- Action Button -->
+                    <button onclick="processDocuments()" id="btn-convert" class="w-full bg-primary dark:bg-zinc-800 hover:opacity-90 transition-opacity text-white rounded-full py-sm font-label-sm flex items-center justify-center gap-xs cursor-pointer border-none outline-none">
+                        <span id="btn-action-text">Processar Arquivos</span>
+                    </button>
                 </div>
-            </a>
+            </div>
         </section>
     </main>
 
@@ -300,6 +384,48 @@
             <div class="mt-md flex justify-end">
                 <button onclick="closeAboutModal()" class="font-label-sm bg-primary dark:bg-zinc-800 hover:bg-primary/90 dark:hover:bg-zinc-700 text-white px-md py-sm rounded-full transition-colors focus:outline-none">
                     Entendido!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Overlay (Modal) -->
+    <div id="status-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+        <div class="bg-surface-container-lowest dark:bg-zinc-900 border border-surface-variant dark:border-zinc-800 rounded-3xl p-lg max-w-md w-full mx-margin-mobile shadow-2xl relative transform scale-95 transition-transform duration-300">
+            <!-- Processing State -->
+            <div id="status-processing-state" class="hidden flex flex-col items-center text-center gap-md">
+                <div class="w-16 h-16 border-4 border-primary border-t-transparent animate-spin rounded-full"></div>
+                <h3 class="font-title-md text-primary dark:text-zinc-200">Processando Documentos...</h3>
+                <p class="font-body-md text-on-surface-variant dark:text-zinc-400">Sua conversão está sendo feita de forma segura na memória. Aguarde um instante.</p>
+            </div>
+
+            <!-- Success State -->
+            <div id="status-success-state" class="hidden flex flex-col items-center text-center gap-md">
+                <div class="w-16 h-16 rounded-full bg-pastel-green dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[32px]">check_circle</span>
+                </div>
+                <h3 class="font-title-md text-primary dark:text-zinc-200">Processado com Sucesso!</h3>
+                <p class="font-body-md text-on-surface-variant dark:text-zinc-400">Seu arquivo foi processado com segurança na memória e já está pronto para download.</p>
+                <div class="flex flex-col w-full gap-sm mt-sm">
+                    <a href="#" id="btn-download" download class="w-full bg-primary dark:bg-zinc-800 hover:opacity-90 transition-opacity text-white rounded-full py-sm font-label-sm flex items-center justify-center gap-xs cursor-pointer border-none outline-none">
+                        <span class="material-symbols-outlined text-md">download</span>
+                        Baixar Arquivo
+                    </a>
+                    <button onclick="resetWorkspace()" class="w-full bg-surface-container hover:bg-surface-container-high dark:bg-zinc-800/50 dark:hover:bg-zinc-800 text-on-surface dark:text-zinc-300 rounded-full py-sm font-label-sm border-none outline-none cursor-pointer">
+                        Processar Outro
+                    </button>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="status-error-state" class="hidden flex flex-col items-center text-center gap-md">
+                <div class="w-16 h-16 rounded-full bg-error-container text-error flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[32px]">error</span>
+                </div>
+                <h3 class="font-title-md text-primary dark:text-zinc-200">Falha no Processamento</h3>
+                <p id="error-message-text" class="font-body-md text-on-surface-variant dark:text-zinc-400">Ocorreu um erro ao processar os arquivos.</p>
+                <button onclick="hideStatusOverlay()" class="w-full bg-surface-container hover:bg-surface-container-high dark:bg-zinc-800/50 dark:hover:bg-zinc-800 text-on-surface dark:text-zinc-300 rounded-full py-sm font-label-sm mt-sm border-none outline-none cursor-pointer">
+                    Voltar e Editar
                 </button>
             </div>
         </div>
