@@ -34,30 +34,48 @@ darkModeToggle.addEventListener('click', () => {
 // --- Mascot Interactive Logic (Removida pois o mascote agora é estático) ---
 
 
-// --- About Modal Logic ---
-const aboutModal = document.getElementById('about-modal');
-
-function openAboutModal() {
-    aboutModal.classList.remove('hidden');
+// --- Modal Handling Logic ---
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.classList.remove('hidden');
     // Allow layout repaint before transitioning
     setTimeout(() => {
-        aboutModal.classList.add('modal-active');
+        modal.classList.add('modal-active');
     }, 10);
 }
 
-function closeAboutModal() {
-    aboutModal.classList.remove('modal-active');
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.classList.remove('modal-active');
     // Wait for transition to finish before hiding element
     setTimeout(() => {
-        aboutModal.classList.add('hidden');
+        modal.classList.add('hidden');
     }, 300);
 }
 
-// Close on clicking backdrop
-aboutModal.addEventListener('click', (e) => {
-    if (e.target === aboutModal) {
-        closeAboutModal();
-    }
+// Legacy wrappers for HTML buttons
+function openAboutModal() {
+    openModal('about-modal');
+}
+
+function closeAboutModal() {
+    closeModal('about-modal');
+}
+
+// Attach click backdrop listeners to all modals
+document.addEventListener('DOMContentLoaded', () => {
+    ['about-modal', 'privacy-modal', 'terms-modal', 'contact-modal'].forEach(id => {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(id);
+                }
+            });
+        }
+    });
 });
 
 

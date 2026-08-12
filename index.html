@@ -311,10 +311,10 @@
                 &copy; 2026 Doca. Feito com carinho para seus documentos.
             </div>
             <nav class="flex flex-wrap justify-center gap-sm">
-                <button onclick="openAboutModal()" class="font-label-sm text-label-sm text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white underline transition-all focus:outline-none">Sobre</button>
-                <a class="font-label-sm text-label-sm text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white underline transition-all" href="#">Privacidade</a>
-                <a class="font-label-sm text-label-sm text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white underline transition-all" href="#">Termos de Uso</a>
-                <a class="font-label-sm text-label-sm text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white underline transition-all" href="#">Contato</a>
+                <button onclick="openAboutModal()" class="font-label-sm text-label-sm text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white underline transition-all focus:outline-none cursor-pointer">Sobre</button>
+                <button onclick="openModal('privacy-modal')" class="font-label-sm text-label-sm text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white underline transition-all focus:outline-none cursor-pointer">Privacidade</button>
+                <button onclick="openModal('terms-modal')" class="font-label-sm text-label-sm text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white underline transition-all focus:outline-none cursor-pointer">Termos de Uso</button>
+                <button onclick="openModal('contact-modal')" class="font-label-sm text-label-sm text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white underline transition-all focus:outline-none cursor-pointer">Contato</button>
             </nav>
         </div>
     </footer>
@@ -359,6 +359,108 @@
             <!-- Action -->
             <div class="mt-md flex justify-end">
                 <button onclick="closeAboutModal()" class="font-label-sm bg-primary dark:bg-zinc-800 hover:bg-primary/90 dark:hover:bg-zinc-700 text-white px-md py-sm rounded-full transition-colors focus:outline-none">
+                    Entendido!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div id="privacy-modal" class="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+        <div class="bg-surface-container-lowest dark:bg-zinc-900 border border-surface-variant dark:border-zinc-800 rounded-3xl p-lg max-w-lg w-full mx-margin-mobile shadow-2xl relative transform scale-95 transition-transform duration-300">
+            <button onclick="closeModal('privacy-modal')" class="absolute top-sm right-sm p-2 hover:bg-surface-container dark:hover:bg-zinc-800 rounded-full text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white transition-colors" title="Fechar">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="flex items-center gap-md mb-md">
+                <div class="w-12 h-12 rounded-2xl bg-primary/10 dark:bg-zinc-800 text-primary dark:text-zinc-300 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-[28px]">shield</span>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-headline-lg text-primary dark:text-zinc-100">Política de Privacidade</h2>
+                    <p class="text-sm text-on-surface-variant dark:text-zinc-400">Compromisso total com seus dados</p>
+                </div>
+            </div>
+            <div class="space-y-sm font-body-md text-on-surface-variant dark:text-zinc-300 max-h-[350px] overflow-y-auto pr-xs">
+                <p>
+                    A privacidade dos seus dados é o pilar fundamental do <strong>Doca</strong>. Por isso, garantimos:
+                </p>
+                <ul class="list-disc pl-md space-y-xs">
+                    <li><strong>Processamento em Memória:</strong> Seus arquivos são processados diretamente na memória do servidor e nunca são salvos em nenhum disco rígido ou banco de dados.</li>
+                    <li><strong>Sem Armazenamento:</strong> Uma vez concluída a conversão ou manipulação do PDF e enviado o download, o arquivo é imediatamente e permanentemente eliminado do servidor.</li>
+                    <li><strong>Zero Cookies e Rastreadores:</strong> Não utilizamos cookies de rastreamento, anúncios ou ferramentas de analytics que possam coletar dados sobre sua navegação ou sua identidade.</li>
+                    <li><strong>Sem Cadastro:</strong> Você não precisa fazer login ou fornecer qualquer dado pessoal (como e-mail ou nome) para usar a plataforma.</li>
+                </ul>
+            </div>
+            <div class="mt-md flex justify-end">
+                <button onclick="closeModal('privacy-modal')" class="font-label-sm bg-primary dark:bg-zinc-800 hover:bg-primary/90 dark:hover:bg-zinc-700 text-white px-md py-sm rounded-full transition-colors focus:outline-none">
+                    Entendido!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms Modal -->
+    <div id="terms-modal" class="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+        <div class="bg-surface-container-lowest dark:bg-zinc-900 border border-surface-variant dark:border-zinc-800 rounded-3xl p-lg max-w-lg w-full mx-margin-mobile shadow-2xl relative transform scale-95 transition-transform duration-300">
+            <button onclick="closeModal('terms-modal')" class="absolute top-sm right-sm p-2 hover:bg-surface-container dark:hover:bg-zinc-800 rounded-full text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white transition-colors" title="Fechar">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="flex items-center gap-md mb-md">
+                <div class="w-12 h-12 rounded-2xl bg-primary/10 dark:bg-zinc-800 text-primary dark:text-zinc-300 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-[28px]">gavel</span>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-headline-lg text-primary dark:text-zinc-100">Termos de Uso</h2>
+                    <p class="text-sm text-on-surface-variant dark:text-zinc-400">Regras e responsabilidades de uso</p>
+                </div>
+            </div>
+            <div class="space-y-sm font-body-md text-on-surface-variant dark:text-zinc-300 max-h-[350px] overflow-y-auto pr-xs">
+                <p>
+                    Ao utilizar o <strong>Doca</strong>, você concorda com os seguintes termos:
+                </p>
+                <ul class="list-disc pl-md space-y-xs">
+                    <li><strong>Uso Livre e Gratuito:</strong> O serviço é totalmente gratuito para uso pessoal e profissional, sem custos ou limitações ocultas.</li>
+                    <li><strong>Responsabilidade do Usuário:</strong> Você é o único proprietário e responsável pelos arquivos enviados. Certifique-se de que possui os direitos de uso dos documentos.</li>
+                    <li><strong>Sem Garantias:</strong> O serviço é fornecido "no estado em que se encontra" (as is), sem garantias de qualquer tipo de funcionamento ininterrupto ou de ausência de erros, embora nos esforcemos para entregar o melhor serviço possível.</li>
+                    <li><strong>Limites da Plataforma:</strong> Para garantir o funcionamento para todos, há um limite de upload de até 30MB por arquivo e processamento em lote limitado de acordo com a ferramenta.</li>
+                </ul>
+            </div>
+            <div class="mt-md flex justify-end">
+                <button onclick="closeModal('terms-modal')" class="font-label-sm bg-primary dark:bg-zinc-800 hover:bg-primary/90 dark:hover:bg-zinc-700 text-white px-md py-sm rounded-full transition-colors focus:outline-none">
+                    Entendido!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+        <div class="bg-surface-container-lowest dark:bg-zinc-900 border border-surface-variant dark:border-zinc-800 rounded-3xl p-lg max-w-lg w-full mx-margin-mobile shadow-2xl relative transform scale-95 transition-transform duration-300">
+            <button onclick="closeModal('contact-modal')" class="absolute top-sm right-sm p-2 hover:bg-surface-container dark:hover:bg-zinc-800 rounded-full text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-white transition-colors" title="Fechar">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="flex items-center gap-md mb-md">
+                <div class="w-12 h-12 rounded-2xl bg-primary/10 dark:bg-zinc-800 text-primary dark:text-zinc-300 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-[28px]">mail</span>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-headline-lg text-primary dark:text-zinc-100">Contato</h2>
+                    <p class="text-sm text-on-surface-variant dark:text-zinc-400">Fale conosco</p>
+                </div>
+            </div>
+            <div class="space-y-md font-body-md text-on-surface-variant dark:text-zinc-300">
+                <p class="text-center font-medium text-lg text-on-surface dark:text-zinc-100">
+                    Quer relatar algum erro, feedback ou sugestão?
+                </p>
+                <div class="p-md bg-primary-container/20 dark:bg-zinc-800/50 rounded-2xl border border-primary-container/30 dark:border-zinc-800 flex flex-col items-center gap-xs">
+                    <span class="text-xs text-on-surface-variant dark:text-zinc-400">Envie um e-mail para:</span>
+                    <a href="mailto:doca.app@proton.me" class="text-xl font-bold text-primary dark:text-zinc-200 hover:underline">
+                        doca.app@proton.me
+                    </a>
+                </div>
+            </div>
+            <div class="mt-md flex justify-end">
+                <button onclick="closeModal('contact-modal')" class="font-label-sm bg-primary dark:bg-zinc-800 hover:bg-primary/90 dark:hover:bg-zinc-700 text-white px-md py-sm rounded-full transition-colors focus:outline-none">
                     Entendido!
                 </button>
             </div>
@@ -428,6 +530,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="script.js?v=4" defer></script>
+    <script src="script.js?v=5" defer></script>
 </body>
 </html>
