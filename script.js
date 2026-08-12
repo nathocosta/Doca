@@ -106,14 +106,6 @@ const toolConfigs = {
         minFiles: 1,
         maxFiles: 1,
         settingsId: 'settings-rotate'
-    },
-    'unlock': {
-        title: 'Desbloquear PDF',
-        accept: '.pdf',
-        prompt: 'Suporta um único documento PDF protegido por senha.',
-        minFiles: 1,
-        maxFiles: 1,
-        settingsId: 'settings-unlock'
     }
 };
 
@@ -155,7 +147,7 @@ function switchView(tool) {
     // Hide all tool-specific settings
     document.getElementById('settings-split').style.display = 'none';
     document.getElementById('settings-rotate').style.display = 'none';
-    document.getElementById('settings-unlock').style.display = 'none';
+
     
     // Show specific settings if any
     if (config.settingsId) {
@@ -188,7 +180,7 @@ function getActionButtonText(tool) {
         case 'split': return 'Dividir PDF';
         case 'img-to-pdf': return 'Converter Imagens';
         case 'rotate': return 'Rotacionar Páginas';
-        case 'unlock': return 'Remover Senha';
+
         default: return 'Processar Arquivos';
     }
 }
@@ -416,13 +408,7 @@ function validateParams() {
         }
     }
 
-    if (currentTool === 'unlock') {
-        const pwd = document.getElementById('unlock-password').value;
-        if (!pwd || pwd.length < 1) {
-            alert('Por favor, digite a senha necessária para desbloquear o PDF.');
-            return false;
-        }
-    }
+
 
     return true;
 }
@@ -443,8 +429,7 @@ async function processDocuments() {
         formData.append('ranges', document.getElementById('split-ranges').value.trim());
     } else if (currentTool === 'rotate') {
         formData.append('angle', document.getElementById('rotate-angle').value);
-    } else if (currentTool === 'unlock') {
-        formData.append('password', document.getElementById('unlock-password').value);
+
     }
 
     const endpoint = `${API_BASE_URL}/api/${currentTool}`;
@@ -488,7 +473,7 @@ async function processDocuments() {
             else if (currentTool === 'split') downloadName = 'documento_dividido.pdf';
             else if (currentTool === 'img-to-pdf') downloadName = 'imagens_convertidas.pdf';
             else if (currentTool === 'rotate') downloadName = 'documento_rotacionado.pdf';
-            else if (currentTool === 'unlock') downloadName = 'documento_desbloqueado.pdf';
+
         }
         
         btnDownload.setAttribute('download', downloadName);
