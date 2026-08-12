@@ -153,6 +153,13 @@ function renderToolView(tool) {
     fileFormatPrompt.textContent = config.prompt;
     fileInput.setAttribute('accept', config.accept);
     
+    // Enable multiple file selection if allowed by the tool
+    if (config.maxFiles > 1) {
+        fileInput.setAttribute('multiple', 'multiple');
+    } else {
+        fileInput.removeAttribute('multiple');
+    }
+    
     // Hide all tool-specific settings
     document.getElementById('settings-split').style.display = 'none';
     document.getElementById('settings-rotate').style.display = 'none';
