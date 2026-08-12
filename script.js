@@ -106,6 +106,14 @@ const toolConfigs = {
         minFiles: 1,
         maxFiles: 1,
         settingsId: 'settings-rotate'
+    },
+    'compress': {
+        title: 'Compactar PDF',
+        accept: '.pdf',
+        prompt: 'Suporta um único documento PDF.',
+        minFiles: 1,
+        maxFiles: 1,
+        settingsId: null
     }
 };
 
@@ -211,6 +219,7 @@ function getActionButtonText(tool) {
         case 'split': return 'Dividir PDF';
         case 'img-to-pdf': return 'Converter Imagens';
         case 'rotate': return 'Rotacionar Páginas';
+        case 'compress': return 'Compactar PDF';
 
         default: return 'Processar Arquivos';
     }
@@ -503,7 +512,7 @@ async function processDocuments() {
             if (currentTool === 'merge') downloadName = 'documento_mesclado.pdf';
             else if (currentTool === 'split') downloadName = 'documento_dividido.pdf';
             else if (currentTool === 'img-to-pdf') downloadName = 'imagens_convertidas.pdf';
-            else if (currentTool === 'rotate') downloadName = 'documento_rotacionado.pdf';
+            else if (currentTool === 'compress') downloadName = 'documento_compactado.pdf';
 
         }
         
