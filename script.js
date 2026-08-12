@@ -132,6 +132,14 @@ const toolConfigs = {
         minFiles: 1,
         maxFiles: 1,
         settingsId: null
+    },
+    'docx-to-pdf': {
+        title: 'Word para PDF',
+        accept: '.docx',
+        prompt: 'Suporta um único documento do Word (.docx).',
+        minFiles: 1,
+        maxFiles: 1,
+        settingsId: null
     }
 };
 
@@ -238,6 +246,7 @@ function getActionButtonText(tool) {
         case 'img-to-pdf': return 'Converter Imagens';
         case 'rotate': return 'Rotacionar Páginas';
         case 'compress': return 'Compactar PDF';
+        case 'docx-to-pdf': return 'Converter para PDF';
 
         default: return 'Processar Arquivos';
     }
@@ -531,6 +540,7 @@ async function processDocuments() {
             else if (currentTool === 'split') downloadName = 'documento_dividido.pdf';
             else if (currentTool === 'img-to-pdf') downloadName = 'imagens_convertidas.pdf';
             else if (currentTool === 'compress') downloadName = 'documento_compactado.pdf';
+            else if (currentTool === 'docx-to-pdf') downloadName = 'documento_convertido.pdf';
 
         }
         
