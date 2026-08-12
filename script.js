@@ -61,8 +61,48 @@ aboutModal.addEventListener('click', (e) => {
 });
 
 
+// --- Settings Modal Logic ---
+const settingsModal = document.getElementById('settings-modal');
+const settingsApiKeyInput = document.getElementById('settings-api-key');
+
+function openSettingsModal() {
+    // Load key from localStorage
+    const savedKey = localStorage.getItem('doca_api_key') || '';
+    settingsApiKeyInput.value = savedKey;
+
+    settingsModal.classList.remove('hidden');
+    setTimeout(() => {
+        settingsModal.classList.add('modal-active');
+    }, 10);
+}
+
+function closeSettingsModal() {
+    settingsModal.classList.remove('modal-active');
+    setTimeout(() => {
+        settingsModal.classList.add('hidden');
+    }, 300);
+}
+
+function saveSettings() {
+    const keyVal = settingsApiKeyInput.value.trim();
+    localStorage.setItem('doca_api_key', keyVal);
+    closeSettingsModal();
+}
+
+// Close on clicking backdrop
+if (settingsModal) {
+    settingsModal.addEventListener('click', (e) => {
+        if (e.target === settingsModal) {
+            closeSettingsModal();
+        }
+    });
+}
+
+
 // --- Configuration ---
-const API_BASE_URL = 'https://doca-api.onrender.com';
+const API_BASE_URL = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1') || window.location.origin.startsWith('file://')
+    ? 'http://localhost:3000'
+    : 'https://doca-api.onrender.com';
 
 // --- State Management ---
 let currentTool = '';
@@ -444,11 +484,32 @@ async function processDocuments() {
 
     const endpoint = `${API_BASE_URL}/api/${currentTool}`;
 
+    const headers = {};
+    const apiKey = localStorage.getItem('doca_api_key') || '';
+    if (apiKey) {
+        headers['Authorization'] = `Bearer ${apiKey}`;
+    }
+
     try {
         const response = await fetch(endpoint, {
             method: 'POST',
+            headers: headers,
             body: formData
         });
+
+        if (response.status === 401) {
+            let errorText = 'Autenticação necessária. Insira uma chave de acesso válida.';
+            try {
+                const rawText = await response.text();
+                const errData = JSON.parse(rawText);
+                errorText = errData.error || errorText;
+            } catch (e) {}
+            
+            hideStatusOverlay();
+            alert(errorText);
+            openSettingsModal();
+            return;
+        }
 
         if (!response.ok) {
             let errorText = 'Erro no processamento interno do servidor.';
