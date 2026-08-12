@@ -209,7 +209,7 @@ function handleRouting() {
 
 // Set up routing listeners
 window.addEventListener('hashchange', handleRouting);
-window.addEventListener('DOMContentLoaded', handleRouting);
+handleRouting();
 
 
 // Generate Action Button Label
