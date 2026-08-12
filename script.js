@@ -130,8 +130,17 @@ const stateError = document.getElementById('status-error-state');
 const btnDownload = document.getElementById('btn-download');
 const errorMessageText = document.getElementById('error-message-text');
 
-// Switch Views
+// Switch Views (legacy wrappers for backward compatibility/onclick handlers)
 function switchView(tool) {
+    window.location.hash = tool;
+}
+
+function goHome() {
+    window.location.hash = '';
+}
+
+// Render logic for routing
+function renderToolView(tool) {
     currentTool = tool;
     const config = toolConfigs[tool];
     
@@ -166,12 +175,27 @@ function switchView(tool) {
     viewWorkspace.classList.remove('hidden');
 }
 
-function goHome() {
+function renderHomeView() {
     viewWorkspace.classList.add('hidden');
     viewDashboard.classList.remove('hidden');
     currentTool = '';
     selectedFiles = [];
 }
+
+// Hash-based routing
+function handleRouting() {
+    const hash = window.location.hash.replace('#', '');
+    if (toolConfigs[hash]) {
+        renderToolView(hash);
+    } else {
+        renderHomeView();
+    }
+}
+
+// Set up routing listeners
+window.addEventListener('hashchange', handleRouting);
+window.addEventListener('DOMContentLoaded', handleRouting);
+
 
 // Generate Action Button Label
 function getActionButtonText(tool) {
