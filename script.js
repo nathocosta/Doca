@@ -83,14 +83,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // --- Configuration ---
-const API_BASE_URL = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1') || window.location.origin.startsWith('file://')
-    ? 'http://localhost:3000'
+const API_BASE_URL = window.location.origin.includes('localhost') 
+    ? 'http://localhost:3000' 
     : 'https://doca-api.onrender.com';
 
 // --- State Management ---
 let currentTool = '';
 let selectedFiles = []; // Array of { id, file, name, size }
 let fileCounter = 0;
+let currentDownloadUrl = null;
 
 const toolConfigs = {
     'merge': {
@@ -140,6 +141,14 @@ const toolConfigs = {
         minFiles: 1,
         maxFiles: 1,
         settingsId: null
+    },
+    'protect': {
+        title: 'Proteger PDF',
+        accept: '.pdf',
+        prompt: 'Suporta um único documento PDF.',
+        minFiles: 1,
+        maxFiles: 1,
+        settingsId: 'settings-protect'
     }
 };
 
@@ -197,6 +206,7 @@ function renderToolView(tool) {
     // Hide all tool-specific settings
     document.getElementById('settings-split').style.display = 'none';
     document.getElementById('settings-rotate').style.display = 'none';
+    document.getElementById('settings-protect').style.display = 'none';
 
     
     // Show specific settings if any
@@ -247,6 +257,7 @@ function getActionButtonText(tool) {
         case 'rotate': return 'Rotacionar Páginas';
         case 'compress': return 'Compactar PDF';
         case 'docx-to-pdf': return 'Converter para PDF';
+        case 'protect': return 'Proteger PDF';
 
         default: return 'Processar Arquivos';
     }
@@ -415,6 +426,10 @@ function removeFile(id) {
 function clearFiles() {
     selectedFiles = [];
     renderFileList();
+    const pwdInput = document.getElementById('protect-password');
+    if (pwdInput) {
+        pwdInput.value = '';
+    }
 }
 
 // Toggle password visibility
@@ -430,6 +445,19 @@ function togglePasswordVisibility(fieldId) {
     }
 }
 
+// Dynamic width adjustment for status modal
+function updateStatusModalWidth(hasPreview) {
+    const card = document.getElementById('status-modal-card');
+    if (!card) return;
+    if (hasPreview) {
+        card.classList.remove('max-w-md');
+        card.classList.add('max-w-3xl');
+    } else {
+        card.classList.remove('max-w-3xl');
+        card.classList.add('max-w-md');
+    }
+}
+
 // Toggle status overlay
 function showStatusOverlay(state) {
     statusOverlay.classList.remove('hidden');
@@ -441,21 +469,50 @@ function showStatusOverlay(state) {
     stateSuccess.classList.add('hidden');
     stateError.classList.add('hidden');
     
-    if (state === 'processing') stateProcessing.classList.remove('hidden');
-    else if (state === 'success') stateSuccess.classList.remove('hidden');
-    else if (state === 'error') stateError.classList.remove('hidden');
+    if (state === 'processing') {
+        stateProcessing.classList.remove('hidden');
+        updateStatusModalWidth(false);
+    } else if (state === 'success') {
+        stateSuccess.classList.remove('hidden');
+        
+        const showPreview = currentTool !== 'docx-to-pdf' && currentTool !== 'img-to-pdf';
+        const previewContainer = document.getElementById('pdf-preview-container');
+        const previewIframe = document.getElementById('pdf-preview-iframe');
+        
+        if (showPreview && previewContainer && previewIframe && currentDownloadUrl) {
+            previewIframe.src = currentDownloadUrl;
+            previewContainer.classList.remove('hidden');
+            updateStatusModalWidth(true);
+        } else {
+            if (previewIframe) previewIframe.src = '';
+            if (previewContainer) previewContainer.classList.add('hidden');
+            updateStatusModalWidth(false);
+        }
+    } else if (state === 'error') {
+        stateError.classList.remove('hidden');
+        updateStatusModalWidth(false);
+    }
 }
 
 function hideStatusOverlay() {
     statusOverlay.classList.remove('modal-active');
     setTimeout(() => {
         statusOverlay.classList.add('hidden');
+        // Clear iframe when overlay is hidden
+        const previewIframe = document.getElementById('pdf-preview-iframe');
+        if (previewIframe) {
+            previewIframe.src = '';
+        }
     }, 300);
 }
 
 function resetWorkspace() {
     hideStatusOverlay();
     clearFiles();
+    if (currentDownloadUrl) {
+        URL.revokeObjectURL(currentDownloadUrl);
+        currentDownloadUrl = null;
+    }
 }
 
 // Validate Params
@@ -471,6 +528,14 @@ function validateParams() {
         const ranges = document.getElementById('split-ranges').value.trim();
         if (ranges !== "" && !/^[0-9\s,\-]+$/.test(ranges)) {
             alert('Intervalo inválido. Use números, vírgulas e hífen (Ex: "1-3, 5").');
+            return false;
+        }
+    }
+
+    if (currentTool === 'protect') {
+        const password = document.getElementById('protect-password').value;
+        if (!password || password.length < 4 || password.length > 128) {
+            alert('Por favor, digite uma senha que tenha entre 4 e 128 caracteres.');
             return false;
         }
     }
@@ -496,7 +561,8 @@ async function processDocuments() {
         formData.append('ranges', document.getElementById('split-ranges').value.trim());
     } else if (currentTool === 'rotate') {
         formData.append('angle', document.getElementById('rotate-angle').value);
-
+    } else if (currentTool === 'protect') {
+        formData.append('password', document.getElementById('protect-password').value);
     }
 
     const endpoint = `${API_BASE_URL}/api/${currentTool}`;
@@ -524,9 +590,12 @@ async function processDocuments() {
         }
 
         const blob = await response.blob();
-        const downloadUrl = URL.createObjectURL(blob);
+        if (currentDownloadUrl) {
+            URL.revokeObjectURL(currentDownloadUrl);
+        }
+        currentDownloadUrl = URL.createObjectURL(blob);
         
-        btnDownload.href = downloadUrl;
+        btnDownload.href = currentDownloadUrl;
         
         let downloadName = 'documento_processado.pdf';
         const contentDisposition = response.headers.get('Content-Disposition');
@@ -541,6 +610,7 @@ async function processDocuments() {
             else if (currentTool === 'img-to-pdf') downloadName = 'imagens_convertidas.pdf';
             else if (currentTool === 'compress') downloadName = 'documento_compactado.pdf';
             else if (currentTool === 'docx-to-pdf') downloadName = 'documento_convertido.pdf';
+            else if (currentTool === 'protect') downloadName = 'documento_protegido.pdf';
 
         }
         

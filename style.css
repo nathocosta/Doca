@@ -32,29 +32,7 @@ body {
     transform: scale(1) !important;
 }
 
-/* Loading Animation Styles */
-@keyframes loading-breathe {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-3px); }
-}
 
-/* Arm wiggling / writing on screen animation */
-@keyframes scribble-arm {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    25% { transform: translate(-3px, -2px) rotate(-6deg); }
-    50% { transform: translate(2px, 3px) rotate(4deg); }
-    75% { transform: translate(-1px, 1px) rotate(-3deg); }
-}
-
-.loading-mascot-body {
-    transform-origin: bottom center;
-    animation: loading-breathe 2s ease-in-out infinite;
-}
-
-.loading-writing-arm {
-    animation: scribble-arm 0.25s ease-in-out infinite;
-    transform-origin: 148px 120px;
-}
 
 /* Estilos do Mascote (Doca) - O container foi mantido para aplicar o efeito hover na imagem */
 .mascote-container {
