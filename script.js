@@ -475,7 +475,7 @@ function showStatusOverlay(state) {
     } else if (state === 'success') {
         stateSuccess.classList.remove('hidden');
         
-        const showPreview = currentTool !== 'docx-to-pdf' && currentTool !== 'img-to-pdf';
+        const showPreview = true;
         const previewContainer = document.getElementById('pdf-preview-container');
         const previewIframe = document.getElementById('pdf-preview-iframe');
         
