@@ -83,8 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // --- Configuration ---
-const API_BASE_URL = window.location.origin.includes('localhost') 
-    ? 'http://localhost:3000' 
+const API_BASE_URL = window.location.origin.includes('localhost')
+    ? 'http://localhost:3000'
     : 'https://doca-api.onrender.com';
 
 // --- State Management ---
@@ -186,44 +186,51 @@ function goHome() {
 function renderToolView(tool) {
     currentTool = tool;
     const config = toolConfigs[tool];
-    
+
     // Clear state
     selectedFiles = [];
     fileCounter = 0;
-    
+
+    const customFilenameInput = document.getElementById('custom-filename');
+    if (customFilenameInput) {
+        customFilenameInput.value = '';
+    }
+
     // Configure workspace UI
     toolTitle.textContent = config.title;
     fileFormatPrompt.textContent = config.prompt;
     fileInput.setAttribute('accept', config.accept);
-    
+
     // Enable multiple file selection if allowed by the tool
     if (config.maxFiles > 1) {
         fileInput.setAttribute('multiple', 'multiple');
     } else {
         fileInput.removeAttribute('multiple');
     }
-    
+
     // Hide all tool-specific settings
     document.getElementById('settings-split').style.display = 'none';
     document.getElementById('settings-rotate').style.display = 'none';
     document.getElementById('settings-protect').style.display = 'none';
 
-    
+
     // Show specific settings if any
     if (config.settingsId) {
         document.getElementById(config.settingsId).style.display = 'flex';
     }
-    
+
     // Update labels
     btnActionText.textContent = getActionButtonText(tool);
-    
+
     // UI states
     fileListSection.classList.add('hidden');
     dropZone.classList.remove('hidden');
-    
+
     // Toggle active classes
     viewDashboard.classList.add('hidden');
     viewWorkspace.classList.remove('hidden');
+
+    updateFilenamePlaceholder();
 }
 
 function renderHomeView() {
@@ -266,7 +273,7 @@ function getActionButtonText(tool) {
 // Drag and drop setup for main page
 document.addEventListener('DOMContentLoaded', () => {
     if (!dropZone) return;
-    
+
     ['dragenter', 'dragover'].forEach(eventName => {
         dropZone.addEventListener(eventName, (e) => {
             e.preventDefault();
@@ -296,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function handleFiles(files) {
     const config = toolConfigs[currentTool];
     const allowedExtensions = config.accept.split(',');
-    
+
     if (config.maxFiles === 1) {
         selectedFiles = [];
     }
@@ -304,7 +311,7 @@ function handleFiles(files) {
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const ext = '.' + file.name.split('.').pop().toLowerCase();
-        
+
         const isValidExtension = allowedExtensions.some(allowedExt => {
             if (allowedExt === '.jpg' || allowedExt === '.jpeg') {
                 return ext === '.jpg' || ext === '.jpeg';
@@ -344,35 +351,83 @@ function formatBytes(bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
+// --- Filename Helper Logic ---
+function getDefaultFilename() {
+    if (selectedFiles.length === 0) {
+        switch (currentTool) {
+            case 'merge': return 'documento_mesclado.pdf';
+            case 'split': return 'documento_dividido.pdf';
+            case 'img-to-pdf': return 'imagens_convertidas.pdf';
+            case 'compress': return 'documento_compactado.pdf';
+            case 'docx-to-pdf': return 'documento_convertido.pdf';
+            case 'protect': return 'documento_protegido.pdf';
+            case 'rotate': return 'documento_rotacionado.pdf';
+            default: return 'documento_processado.pdf';
+        }
+    }
+
+    const firstFile = selectedFiles[0];
+    const lastDot = firstFile.name.lastIndexOf('.');
+    const baseName = lastDot !== -1 ? firstFile.name.substring(0, lastDot) : firstFile.name;
+
+    switch (currentTool) {
+        case 'docx-to-pdf':
+            return `${baseName}.pdf`;
+        case 'compress':
+            return `${baseName}_compactado.pdf`;
+        case 'protect':
+            return `${baseName}_protegido.pdf`;
+        case 'rotate':
+            return `${baseName}_rotacionado.pdf`;
+        case 'split':
+            return `${baseName}_dividido.pdf`;
+        case 'merge':
+            return `documento_mesclado.pdf`;
+        case 'img-to-pdf':
+            return `imagens_convertidas.pdf`;
+        default:
+            return `${baseName}_processado.pdf`;
+    }
+}
+
+function updateFilenamePlaceholder() {
+    const customFilenameInput = document.getElementById('custom-filename');
+    if (!customFilenameInput) return;
+    
+    const defaultName = getDefaultFilename();
+    customFilenameInput.placeholder = defaultName;
+}
+
 // Render File List
 function renderFileList() {
     fileListContainer.innerHTML = '';
-    
+
     if (selectedFiles.length === 0) {
         fileListSection.classList.add('hidden');
         dropZone.classList.remove('hidden');
+        updateFilenamePlaceholder();
         return;
     }
-    
+
     fileListSection.classList.remove('hidden');
-    
+
     const config = toolConfigs[currentTool];
-    
+
     if (selectedFiles.length >= config.maxFiles) {
         dropZone.classList.add('hidden');
     } else {
         dropZone.classList.remove('hidden');
     }
-    
+
     fileCountLabel.textContent = selectedFiles.length;
 
     selectedFiles.forEach((fileObj, index) => {
         const fileCard = document.createElement('div');
         fileCard.className = 'flex items-center gap-sm p-sm bg-surface-container/50 dark:bg-zinc-800/40 rounded-2xl border border-surface-variant dark:border-zinc-800/80 justify-between';
-        
+
         const isPdf = fileObj.name.toLowerCase().endsWith('.pdf');
         const iconName = isPdf ? 'picture_as_pdf' : 'image';
-        
+
         let reorderButtonsHtml = '';
         if (config.maxFiles > 1) {
             reorderButtonsHtml = `
@@ -404,6 +459,7 @@ function renderFileList() {
         `;
         fileListContainer.appendChild(fileCard);
     });
+    updateFilenamePlaceholder();
 }
 
 // Move Item manually
@@ -430,6 +486,11 @@ function clearFiles() {
     if (pwdInput) {
         pwdInput.value = '';
     }
+    const customFilenameInput = document.getElementById('custom-filename');
+    if (customFilenameInput) {
+        customFilenameInput.value = '';
+    }
+    updateFilenamePlaceholder();
 }
 
 // Toggle password visibility
@@ -464,21 +525,21 @@ function showStatusOverlay(state) {
     setTimeout(() => {
         statusOverlay.classList.add('modal-active');
     }, 10);
-    
+
     stateProcessing.classList.add('hidden');
     stateSuccess.classList.add('hidden');
     stateError.classList.add('hidden');
-    
+
     if (state === 'processing') {
         stateProcessing.classList.remove('hidden');
         updateStatusModalWidth(false);
     } else if (state === 'success') {
         stateSuccess.classList.remove('hidden');
-        
+
         const showPreview = true;
         const previewContainer = document.getElementById('pdf-preview-container');
         const previewIframe = document.getElementById('pdf-preview-iframe');
-        
+
         if (showPreview && previewContainer && previewIframe && currentDownloadUrl) {
             previewIframe.src = currentDownloadUrl;
             previewContainer.classList.remove('hidden');
@@ -513,12 +574,17 @@ function resetWorkspace() {
         URL.revokeObjectURL(currentDownloadUrl);
         currentDownloadUrl = null;
     }
+    const customFilenameInput = document.getElementById('custom-filename');
+    if (customFilenameInput) {
+        customFilenameInput.value = '';
+    }
+    updateFilenamePlaceholder();
 }
 
 // Validate Params
 function validateParams() {
     const config = toolConfigs[currentTool];
-    
+
     if (selectedFiles.length < config.minFiles) {
         alert(`Por favor, adicione pelo menos ${config.minFiles} arquivo(s) para esta ferramenta.`);
         return false;
@@ -548,11 +614,11 @@ function validateParams() {
 // Send Files to API
 async function processDocuments() {
     if (!validateParams()) return;
-    
+
     showStatusOverlay('processing');
-    
+
     const formData = new FormData();
-    
+
     selectedFiles.forEach(fileObj => {
         formData.append('files', fileObj.file);
     });
@@ -594,26 +660,21 @@ async function processDocuments() {
             URL.revokeObjectURL(currentDownloadUrl);
         }
         currentDownloadUrl = URL.createObjectURL(blob);
-        
-        btnDownload.href = currentDownloadUrl;
-        
-        let downloadName = 'documento_processado.pdf';
-        const contentDisposition = response.headers.get('Content-Disposition');
-        if (contentDisposition) {
-            const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition);
-            if (matches != null && matches[1]) { 
-                downloadName = matches[1].replace(/['"]/g, '');
-            }
-        } else {
-            if (currentTool === 'merge') downloadName = 'documento_mesclado.pdf';
-            else if (currentTool === 'split') downloadName = 'documento_dividido.pdf';
-            else if (currentTool === 'img-to-pdf') downloadName = 'imagens_convertidas.pdf';
-            else if (currentTool === 'compress') downloadName = 'documento_compactado.pdf';
-            else if (currentTool === 'docx-to-pdf') downloadName = 'documento_convertido.pdf';
-            else if (currentTool === 'protect') downloadName = 'documento_protegido.pdf';
 
+        btnDownload.href = currentDownloadUrl;
+
+        let downloadName = 'documento_processado.pdf';
+        const customFilenameInput = document.getElementById('custom-filename');
+        if (customFilenameInput && customFilenameInput.value.trim() !== '') {
+            let customName = customFilenameInput.value.trim();
+            if (!customName.toLowerCase().endsWith('.pdf')) {
+                customName += '.pdf';
+            }
+            downloadName = customName;
+        } else {
+            downloadName = getDefaultFilename();
         }
-        
+
         btnDownload.setAttribute('download', downloadName);
         showStatusOverlay('success');
     } catch (error) {
